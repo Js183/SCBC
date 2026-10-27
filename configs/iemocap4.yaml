@@ -1,0 +1,135 @@
+# SCBC on IEMOCAP-4: hyperparameters of every fixed-missing subset.
+# visual_policy builds the vision input from the two interlocutors' features:
+#   interaction = [own, other, own-other, own*other]; stack_speaker_other = 2-token sequence [own, other].
+# correction_scale is lambda_d of the displacement head; the correction is off for
+# correction_warmup_epochs epochs and then ramps up linearly over correction_ramp_epochs epochs.
+data: data/iemocap/IEMOCAP_4way_new.pkl
+seed: 42
+
+subsets:
+  l:
+    train:
+      epochs: 35
+      lr: 0.0002
+      weight_decay: 0.0001
+      grad_clip: 5.0
+      class_weight_power: 1.0
+    model:
+      visual_policy: stack_speaker_other
+      encoder_hidden_dim: 384
+      speaker_dim: 16
+      encoder_layers: 2
+      encoder_dropout: 0.1
+      fusion_hidden_dim: 256
+      fusion_dropout: 0.15
+      correction_scale: 1.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 10
+  v:
+    train:
+      epochs: 35
+      lr: 0.0002
+      weight_decay: 0.0001
+      grad_clip: 5.0
+      class_weight_power: 1.0
+    model:
+      visual_policy: interaction
+      encoder_hidden_dim: 384
+      speaker_dim: 16
+      encoder_layers: 2
+      encoder_dropout: 0.1
+      fusion_hidden_dim: 256
+      fusion_dropout: 0.1
+      correction_scale: 1.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 10
+  a:
+    train:
+      epochs: 60
+      lr: 0.0003
+      weight_decay: 0.001
+      grad_clip: 5.0
+      class_weight_power: 0.4
+    model:
+      visual_policy: stack_speaker_other
+      encoder_hidden_dim: 256
+      speaker_dim: 64
+      encoder_layers: 2
+      encoder_dropout: 0.4
+      fusion_hidden_dim: 256
+      fusion_dropout: 0.3
+      correction_scale: 8.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 5
+  lv:
+    train:
+      epochs: 45
+      lr: 0.0002
+      weight_decay: 0.0001
+      grad_clip: 5.0
+      class_weight_power: 1.0
+    model:
+      visual_policy: interaction
+      encoder_hidden_dim: 384
+      speaker_dim: 16
+      encoder_layers: 2
+      encoder_dropout: 0.15
+      fusion_hidden_dim: 256
+      fusion_dropout: 0.1
+      correction_scale: 1.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 10
+  la:
+    train:
+      epochs: 45
+      lr: 0.00015
+      weight_decay: 0.0002
+      grad_clip: 5.0
+      class_weight_power: 1.0
+    model:
+      visual_policy: interaction
+      encoder_hidden_dim: 384
+      speaker_dim: 16
+      encoder_layers: 2
+      encoder_dropout: 0.1
+      fusion_hidden_dim: 256
+      fusion_dropout: 0.15
+      correction_scale: 1.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 10
+  va:
+    train:
+      epochs: 45
+      lr: 0.0003
+      weight_decay: 0.0001
+      grad_clip: 5.0
+      class_weight_power: 0.8
+    model:
+      visual_policy: interaction
+      encoder_hidden_dim: 256
+      speaker_dim: 32
+      encoder_layers: 2
+      encoder_dropout: 0.1
+      fusion_hidden_dim: 512
+      fusion_dropout: 0.1
+      correction_scale: 1.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 10
+  lva:
+    train:
+      epochs: 45
+      lr: 0.0001
+      weight_decay: 0.0003
+      grad_clip: 5.0
+      class_weight_power: 0.6
+    model:
+      visual_policy: interaction
+      encoder_hidden_dim: 384
+      speaker_dim: 32
+      encoder_layers: 1
+      encoder_dropout: 0.15
+      fusion_hidden_dim: 256
+      fusion_dropout: 0.15
+      correction_scale: 1.0
+      correction_warmup_epochs: 5
+      correction_ramp_epochs: 10
